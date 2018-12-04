@@ -47,4 +47,10 @@ class Category
 
         return $this;
     }
+
+    /* pour enlever le name de category.name dans article/index.twig
+     * public function __toString()
+    {
+        return $this->name;
+    }*/
 }
