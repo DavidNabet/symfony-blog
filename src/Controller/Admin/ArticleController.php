@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use App\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\File;
@@ -36,7 +37,9 @@ class ArticleController extends AbstractController
         $repository = $em->getRepository(Article::class);
 
         //$articles = $repository->findBy([], ['id' => 'asc']);
-        $articles = $repository->findBy([], ['publicationDate' => 'desc']);
+        $articles = $repository->findBy([], [
+            'publicationDate' => 'desc'
+        ]);
 
         return $this->render('admin/article/index.html.twig',
             [

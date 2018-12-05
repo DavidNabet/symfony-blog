@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2 class="blog-post-title">{{ article.title }}</h2>
+    <p class="blog-post-meta">{{ article.publicationDate|date('d/m/Y à H:i:s') }} par <a>{{ article.author }}</a></p>
+    <p class="blog-post-meta">{{ article.category.name }}</p>
+    <hr>
+    {# if article.image is not null #}
+    {% if article.image is not empty %}
+        <div class="col-md-6 text-center">
+            <img src="{{ asset('images/' ~ article.image) }}" height="300px">
+        </div>
+    {% endif %}
+    <p>{{ article.content|nl2br }}</p>
+    <h2>Commentaires</h2>
+        {% if app.user is null %}
+        <a href="{{ path('app_security_login') }}">Connectez-vous pour laisser un commentaire</a>
+        {% else %}
+         {{ form_start(form) }}
+            {{ form_row(form) }}
+            <div class="text-right">
+                <button type="submit" class="btn btn-primary">
+                    Soumettre
+                </button>
+            </div>
+        {{ form_end(form) }}
+        {% endif %}
+
+        {# liste commentaire #}
+        {% if comments is not empty %}
+            {% for comment in comments %}
+                    <div class="jumbotron p-3 p-md-5 text-dark rounded bg-light">
+                {% if comment.user.role == 'ROLE_ADMIN' %}
+                        <p class="font-weight-bold lead text-danger">{{ comment.user.firstname }}</p>
+                    {% else %}
+                        <p class="font-weight-bold lead text-primary">{{ comment.user.firstname }}</p>
+                {% endif %}
+                        <p class="font-italic lead">{{ comment.datePublication|date('d/m/Y H:i:s') }}</p>
+                        <p>{{ comment.content|nl2br }}</p>
+                    </div>
+                 {% else %}
+                     <p>Aucun commentaire dans cette article</p>
+            {% endfor %}
+        {% endif %}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for comment in nbComm %}
+        <div class="jumbotron p-3 p-md-5 text-dark rounded bg-light">
+            <p class="font-weight-bold lead">{{ comment.user.firstname }}</p>
+            <p class="font-italic lead">{{ comment.content }}</p>
+            <p>{{ comment.datePublication|date('d/m/Y H:i:s') }}</p>
+        </div>
+        {% else %}
+        <p>Aucun commentaire se trouve dans cet article</p>
+    {% endfor %}
+{% endblock %}
